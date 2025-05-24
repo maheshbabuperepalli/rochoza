@@ -4,6 +4,8 @@ import ref_image_1 from "../assets/ref_image_1.jpg";
 import ref_image_2 from "../assets/ref_image_2.jpg";
 import ref_image_3 from "../assets/ref_image_3.jpg";
 import ref_image_4 from "../assets/ref_image_4.jpg";
+import founder from "../assets/founder.jpg";
+import wendingMachine from "../assets/wendingMachine.png";
 
 import {
   Card,
@@ -17,6 +19,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui";
 import { VenusIcon } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
 // import { useRef, useEffect } from "react";
 
 const images = [
@@ -90,23 +93,37 @@ const cards = [
   },
 ];
 
+const reviews = [
+  {
+    description:
+      "Rochoza's smart vending machines have transformed our business operations in Vijayawada. Their advanced technology and user-friendly interface make inventory management effortless, saving us both time and money. The customer service team is exceptionally responsive and helpful!",
+    name: "Amit Verma",
+  },
+  {
+    description:
+      "Rochoza has elevated our vending experience in Vijayawada. The sleek design and seamless integration of their machines have boosted customer satisfaction. Their prompt technical support ensures everything runs smoothly. Highly recommend Rochoza for smart vending solutions!",
+    name: "Priya Menon",
+  },
+];
+
 export const HomePage = () => {
-  // const AUTO_PLAY_DELAY = 3000; // 3 seconds
-  // const emblaApiRef = useRef(null);
+  const emblaApiRef = useRef(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [totalSlides, setTotalSlides] = useState(0);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     if (emblaApiRef.current) {
-  //       if (emblaApiRef.current.canScrollNext()) {
-  //         emblaApiRef.current.scrollNext();
-  //       } else {
-  //         emblaApiRef.current.scrollTo(0); // restart if at end
-  //       }
-  //     }
-  //   }, AUTO_PLAY_DELAY);
+  useEffect(() => {
+    const embla = emblaApiRef.current;
+    if (!embla) return;
 
-  //   return () => clearInterval(interval);
-  // }, []);
+    const onSelect = () => {
+      setSelectedIndex(embla.selectedScrollSnap());
+    };
+
+    setTotalSlides(embla.scrollSnapList().length);
+    embla.on("select", onSelect);
+    onSelect(); // initial
+  }, []);
+
   return (
     <div className="w-full h-screen">
       <div className="w-full h-full relative">
@@ -151,30 +168,73 @@ export const HomePage = () => {
        * Smart solutions
        *
        */}
-      <div className="w-full h-full grid grid-cols-2 bg-gray-100 gap-x-8 px-8 items-center justify-center">
-        {cards.map((card) => (
-          <Card className="h-56 relative items-center">
-            <span className="h-max w-max p-6 -top-6 absolute rounded-full bg-gray-200">
-              {/* 
+      <div className="w-full h-full flex bg-gray-100">
+        <div className="w-2xl h-full flex items-center justify-center">
+          <img
+            src={wendingMachine}
+            className="h-[734px]"
+            alt="image of wending machine"
+          />
+        </div>
+
+        <div className="w-full h-full grid grid-cols-2  gap-x-8 px-8 items-center justify-center">
+          {cards.map((card) => (
+            <Card className="h-56 relative items-center">
+              <span className="h-max w-max p-6 -top-6 absolute rounded-full bg-gray-200">
+                {/* 
               icon
               */}
-              <VenusIcon />
-            </span>
-            <CardContent className="p-8">
-              <CardHeader className="px-0">
-                <CardTitle className="text-4xl font-bold px-0">
-                  {card.title}
-                </CardTitle>
-              </CardHeader>
-              <p className="text-lg py-2">{card.description}</p>
-            </CardContent>
-          </Card>
-        ))}
+                <VenusIcon />
+              </span>
+              <CardContent className="p-8">
+                <CardHeader className="px-0">
+                  <CardTitle className="text-4xl font-bold px-0">
+                    {card.title}
+                  </CardTitle>
+                </CardHeader>
+                <p className="text-lg py-2">{card.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
 
-      <div className="w-full h-full grid grid-cols-2 gap-x-8 px-8 items-center justify-center">
+      <div className="w-full h-full flex items-center p-4 justify-center">
+        <div className="w-full  h-full flex p-16 flex-col items-center justify-center">
+          <img
+            src={founder}
+            className="h-96 rounded-lg w-full object-cover"
+            alt="image of founder"
+          />
+          <p className="flex flex-col w-full text-center justify-center items-center">
+            <span className="font-bold text-3xl">Hemanth Allamaneni</span>{" "}
+            <span>Founder, Rochoza</span>
+          </p>
+        </div>
+        <div className="text-2xl px-8">
+          <span className="font-bold text-4xl">The Vision Behind Rochoza</span>
+          <br />
+          <br />
+          <span className="font-bold text-2xl">
+            Young Leadership. Bold Innovation. A New Chapter in Smart Retail.
+          </span>
+          <br />
+          <br />
+          At the heart of Rochoza is a visionary young founder redefining how
+          retail serves people across India. With a mission to merge technology,
+          accessibility, and modern-day utility, Rochoza introduces a new era of
+          smart retail — one that goes beyond transactions and becomes a part of
+          everyday life.
+          <br />
+          <br />
+          This is more than automation — it’s thoughtful, impactful presence
+          where traditional commerce often falls short.
+        </div>
+      </div>
+
+      <div className="w-full h-full grid grid-cols-2 gap-x-8 px-8 items-center bg-gray-100 justify-center">
         {about.map((item) => (
-          <Card className="h-56 items-center shadow-none border-none">
+          <Card className="h-56 items-center shadow-none bg-transparent border-none">
             <CardContent className="p-8">
               <CardHeader className="px-0">
                 <CardTitle className="text-4xl font-bold px-0">
@@ -187,29 +247,61 @@ export const HomePage = () => {
         ))}
       </div>
 
-      <div className="w-full h-full">
+      <div className="w-full h-full flex items-center justify-center">
+        <Carousel
+          opts={{
+            loop: true,
+          }}
+          setApi={(api) => (emblaApiRef.current = api)}
+        >
+          <CarouselContent className="-ml-2 flex gap-8 md:-ml-4">
+            {images.map((image) => (
+              <CarouselItem className="w-full basis-1/3">
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-96 object-cover rounded-xl"
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="left-4 cursor-pointer" />
+          <CarouselNext className="right-4 cursor-pointer" />
+        </Carousel>
+        {/* Dots */}
+        <div className="flex justify-center mt-4 gap-2">
+          {Array.from({ length: totalSlides }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => emblaApiRef.current?.scrollTo(i)}
+              className={`w-3 h-3 rounded-full ${
+                i === selectedIndex ? "bg-white" : "bg-gray-400"
+              }`}
+            >
+              ..
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="w-full h-[450px] bg-gray-800 text-white p-16 flex items-center">
         <Carousel
           opts={{
             align: "start",
             loop: true,
           }}
-          // setApi={(api) => (emblaApiRef.current = api)}
+          setApi={(api) => (emblaApiRef.current = api)}
         >
           <CarouselContent className="-ml-2 md:-ml-4">
-            {images.map((image) => (
-              <CarouselItem className="w-36 h-96">
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  className="w-full h-full object-cover"
-                />
+            {reviews.map((review) => (
+              <CarouselItem className="w-full">
+                {review.description}
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-4" />
-          <CarouselNext className="right-4" />
         </Carousel>
       </div>
+      <div className="w-full h-[350px] flex items-center justify-center"></div>
     </div>
   );
 };
