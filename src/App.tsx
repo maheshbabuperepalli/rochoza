@@ -1,9 +1,18 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HomePage, AboutPage, ContactPage } from "./pages";
+import MainLayout from "./layout/MainLayout";
+
 function App() {
   return (
-    <>
-      <div>Nav bar goes here</div>
-      <div>Content goes here</div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
