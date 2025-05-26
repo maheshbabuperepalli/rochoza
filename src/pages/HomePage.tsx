@@ -6,6 +6,7 @@ import ref_image_3 from "../assets/ref_image_3.jpg";
 import ref_image_4 from "../assets/ref_image_4.jpg";
 import founder from "../assets/founder.jpg";
 import wendingMachine from "../assets/wendingMachine.png";
+import type { EmblaCarouselType } from "embla-carousel";
 
 import {
   Card,
@@ -18,8 +19,15 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui";
-import { VenusIcon } from "lucide-react";
-import { useRef, useState, useEffect } from "react";
+import {
+  Facebook,
+  Instagram,
+  Linkedin,
+  Twitter,
+  VenusIcon,
+} from "lucide-react";
+import { useRef, useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 // import { useRef, useEffect } from "react";
 
 const images = [
@@ -107,22 +115,41 @@ const reviews = [
 ];
 
 export const HomePage = () => {
-  const emblaApiRef = useRef(null);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const emblaApiRef = useRef<EmblaCarouselType | null>(null);
+  const emblaReviewApiRef = useRef<EmblaCarouselType | null>(null);
+  const [isEmblaReady, setIsEmblaReady] = useState(false);
+
   const [totalSlides, setTotalSlides] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const handleSetApi = useCallback((api: EmblaCarouselType) => {
+    if (!api) return;
+    emblaApiRef.current = api;
+    const slidesCount = api.scrollSnapList().length;
+    setTotalSlides(slidesCount);
+
+    api.on("select", () => {
+      setSelectedIndex(api.selectedScrollSnap());
+    });
+
+    setSelectedIndex(api.selectedScrollSnap());
+  }, []);
 
   useEffect(() => {
-    const embla = emblaApiRef.current;
-    if (!embla) return;
+    if (!isEmblaReady || !emblaReviewApiRef.current) return;
 
-    const onSelect = () => {
-      setSelectedIndex(embla.selectedScrollSnap());
-    };
+    const embla = emblaReviewApiRef.current;
 
-    setTotalSlides(embla.scrollSnapList().length);
-    embla.on("select", onSelect);
-    onSelect(); // initial
-  }, []);
+    const interval = setInterval(() => {
+      if (embla.canScrollNext()) {
+        embla.scrollNext();
+      } else {
+        embla.scrollTo(0); // Loop back to start
+      }
+    }, 3000); // every 3 seconds
+
+    return () => clearInterval(interval); // cleanup
+  }, [isEmblaReady]);
 
   return (
     <div className="w-full h-screen">
@@ -148,7 +175,10 @@ export const HomePage = () => {
             className="w-full h-full rounded-4xl object-cover"
           />
         </div>
-        <div className="w-full h-full p-8 flex flex-col items-center justify-center text-2xl">
+        <div
+          className="w-full h-full p-8 flex flex-col items-center justify-center text-2xl"
+          id="about"
+        >
           <span className="text-5xl font-bold">
             Innovative Smart Vending Solutions
           </span>
@@ -252,7 +282,12 @@ export const HomePage = () => {
           opts={{
             loop: true,
           }}
-          setApi={(api) => (emblaApiRef.current = api)}
+          setApi={(api) => {
+            if (!api) {
+              return;
+            }
+            return (emblaApiRef.current = api);
+          }}
         >
           <CarouselContent className="-ml-2 flex gap-8 md:-ml-4">
             {images.map((image) => (
@@ -271,15 +306,17 @@ export const HomePage = () => {
         {/* Dots */}
         <div className="flex justify-center mt-4 gap-2">
           {Array.from({ length: totalSlides }).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => emblaApiRef.current?.scrollTo(i)}
-              className={`w-3 h-3 rounded-full ${
-                i === selectedIndex ? "bg-white" : "bg-gray-400"
-              }`}
-            >
-              ..
-            </button>
+            <div>{i}</div>
+            // <button
+            //   key={i}
+            //   onClick={() => emblaApiRef.current?.scrollTo(i)}
+            //   className={`w-3 h-3 rounded-full ${
+            //     i === selectedIndex ? "bg-black" : "bg-gray-400"
+            //   }`}
+            // >
+            //   {/* Add a visible dot */}
+            //   <span className="block w-full h-full">{i}</span>
+            // </button>
           ))}
         </div>
       </div>
@@ -290,18 +327,104 @@ export const HomePage = () => {
             align: "start",
             loop: true,
           }}
-          setApi={(api) => (emblaApiRef.current = api)}
+          setApi={(api) => {
+            if (!api) return;
+            emblaReviewApiRef.current = api;
+            setIsEmblaReady(true); // trigger autoplay logic
+          }}
         >
           <CarouselContent className="-ml-2 md:-ml-4">
             {reviews.map((review) => (
               <CarouselItem className="w-full">
-                {review.description}
+                <div className="font-semibold text-xl">
+                  <p className="pb-8 text-2xl ">{review.description}</p>
+                  <span>-{review.name}</span>
+                </div>
               </CarouselItem>
             ))}
           </CarouselContent>
         </Carousel>
       </div>
-      <div className="w-full h-[350px] flex items-center justify-center"></div>
+      {/**
+       *
+       * Contact us page
+       *
+       */}
+      <div className="bg-gray-900 text-white py-8 px-4 md:px-12" id="#contact">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
+          {/* 📍 Address */}
+          <div>
+            <h4 className="text-xl font-semibold mb-2">Address</h4>
+            <p>
+              2/144, ST Colony
+              <br />
+              Gollamudi Village
+              <br /> Nandigama Mandal
+              <br /> NTR District – 521185
+              <br /> Andhra Pradesh, India
+            </p>
+          </div>
+
+          {/* 📞 Contact */}
+          <div>
+            <h4 className="text-xl font-semibold mb-2">Contact Us</h4>
+            <p>
+              📞{" "}
+              <Link to="tel:+919392726287" className="hover:underline">
+                +91 9392726287
+              </Link>
+              <br />
+              ✉️{" "}
+              <Link to="mailto:contact@rochoza.in" className="hover:underline">
+                contact@rochoza.in
+              </Link>
+            </p>
+          </div>
+
+          {/* 🌐 Social Media */}
+          <div>
+            <h4 className="text-xl font-semibold mb-2">Follow Us</h4>
+            <div className="flex space-x-4 mt-2">
+              <Link
+                to="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-blue-400"
+              >
+                <Facebook size={20} />
+              </Link>
+              <Link
+                to="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-blue-300"
+              >
+                <Twitter size={20} />
+              </Link>
+              <Link
+                to="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-blue-200"
+              >
+                <Linkedin size={20} />
+              </Link>
+              <Link
+                to="https://www.instagram.com/rochoza.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-pink-400"
+              >
+                <Instagram size={20} />
+              </Link>
+            </div>
+          </div>
+        </div>
+        {/* 🔽 Copyright Strip */}
+        <div className="text-center w-full mt-8 border-t border-gray-700 pt-4 text-sm text-gray-400">
+          © {new Date().getFullYear()} Rochoza. All rights reserved.
+        </div>
+      </div>
     </div>
   );
 };
