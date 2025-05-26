@@ -51,7 +51,7 @@ const Locations = () => {
         {cities.map((city) => (
           <Marker
             key={city.name}
-            position={city.position}
+            position={city.position as [number, number]}
             icon={vendingMachineIcon}
           >
             <Popup>{city.name}</Popup>
