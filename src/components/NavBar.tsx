@@ -5,8 +5,9 @@ import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 export const NavBar: React.FC = () => {
+  const GOOGLE_FORMS_LINK = import.meta.env.VITE_GOOGLE_FORM_URL;
   return (
-    <header className="w-full py-4 shadow-lg">
+    <header className="w-full py-4 shadow-lg z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="font-bold tracking-wide">
@@ -22,13 +23,13 @@ export const NavBar: React.FC = () => {
           <Link to="/" className="transition">
             Home
           </Link>
-          <Link to="/about" className="transition">
+          <Link to="#about" className="transition">
             About
           </Link>
           <Link to="/locations" className="transition">
             locations
           </Link>
-          <Link to="/collaborate" className="transition">
+          <Link to={GOOGLE_FORMS_LINK} className="transition">
             Collaborate
           </Link>
           <Link to="#contact" className="transition">
