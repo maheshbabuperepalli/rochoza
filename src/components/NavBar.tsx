@@ -10,7 +10,11 @@ export const NavBar: React.FC = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="font-bold tracking-wide">
-          <img src={logo} alt="Logo" className="invert h-12 object-contain px-0 py-0" />
+          <img
+            src={logo}
+            alt="Logo"
+            className="invert h-12 object-contain px-0 py-0"
+          />
         </div>
 
         {/* Navigation Links */}
@@ -27,7 +31,7 @@ export const NavBar: React.FC = () => {
           <Link to="/collaborate" className="transition">
             Collaborate
           </Link>
-          <Link to="/contact" className="transition">
+          <Link to="#contact" className="transition">
             Contact
           </Link>
         </nav>
