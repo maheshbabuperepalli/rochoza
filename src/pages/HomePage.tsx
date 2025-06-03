@@ -118,22 +118,27 @@ export const HomePage = () => {
   const emblaApiRef = useRef<EmblaCarouselType | null>(null);
   const emblaReviewApiRef = useRef<EmblaCarouselType | null>(null);
   const [isEmblaReady, setIsEmblaReady] = useState(false);
-
-  const [totalSlides, setTotalSlides] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const handleSetApi = useCallback((api: EmblaCarouselType) => {
-    if (!api) return;
-    emblaApiRef.current = api;
-    const slidesCount = api.scrollSnapList().length;
-    setTotalSlides(slidesCount);
-
-    api.on("select", () => {
-      setSelectedIndex(api.selectedScrollSnap());
-    });
-
-    setSelectedIndex(api.selectedScrollSnap());
+  const onSelect = useCallback(() => {
+    const embla = emblaApiRef.current;
+    if (!embla) return;
+    const newIndex = embla.selectedScrollSnap();
+    setSelectedIndex(newIndex);
   }, []);
+
+  useEffect(() => {
+    const embla = emblaApiRef.current;
+    if (embla) {
+      embla.on("select", onSelect);
+      // force run on mount
+      onSelect();
+    }
+
+    return () => {
+      embla?.off("select", onSelect);
+    };
+  }, [onSelect]);
 
   useEffect(() => {
     if (!isEmblaReady || !emblaReviewApiRef.current) return;
@@ -277,7 +282,7 @@ export const HomePage = () => {
         ))}
       </div>
 
-      <div className="w-full h-full flex items-center justify-center">
+      <div className="w-full h-full flex flex-col items-center justify-center">
         <Carousel
           opts={{
             loop: true,
@@ -288,10 +293,16 @@ export const HomePage = () => {
             }
             return (emblaApiRef.current = api);
           }}
+          className="relative"
         >
+          {/* Left Gradient */}
+          <div className="pointer-events-none absolute left-0 top-0 h-full w-72 bg-gradient-to-r from-black/80 to-transparent z-10" />
+
+          {/* Right Gradient */}
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-72 bg-gradient-to-l from-black/80 to-transparent z-10" />
           <CarouselContent className="-ml-2 flex gap-8 md:-ml-4">
             {images.map((image) => (
-              <CarouselItem className="w-full basis-1/3">
+              <CarouselItem className="shrink-0 basis-1/3">
                 <img
                   src={image.src}
                   alt={image.alt}
@@ -300,23 +311,19 @@ export const HomePage = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-4 cursor-pointer" />
-          <CarouselNext className="right-4 cursor-pointer" />
+          <CarouselPrevious className="left-4 cursor-pointer z-50" />
+          <CarouselNext className="right-4 cursor-pointer z-50" />
         </Carousel>
         {/* Dots */}
         <div className="flex justify-center mt-4 gap-2">
-          {Array.from({ length: totalSlides }).map((_, i) => (
-            <div>{i}</div>
-            // <button
-            //   key={i}
-            //   onClick={() => emblaApiRef.current?.scrollTo(i)}
-            //   className={`w-3 h-3 rounded-full ${
-            //     i === selectedIndex ? "bg-black" : "bg-gray-400"
-            //   }`}
-            // >
-            //   {/* Add a visible dot */}
-            //   <span className="block w-full h-full">{i}</span>
-            // </button>
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => emblaApiRef.current?.scrollTo(i)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                i === selectedIndex ? "bg-black scale-110" : "bg-gray-400"
+              }`}
+            />
           ))}
         </div>
       </div>

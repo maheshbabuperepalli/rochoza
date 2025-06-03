@@ -20,21 +20,21 @@ export const NavBar: React.FC = () => {
 
         {/* Navigation Links */}
         <nav className="hidden md:flex space-x-6 font-medium">
-          <Link to="/" className="transition">
+          <a href="/" className="transition">
             Home
-          </Link>
-          <Link to="#about" className="transition">
+          </a>
+          <a href="/#about" className="transition">
             About
-          </Link>
+          </a>
           <Link to="/locations" className="transition">
             locations
           </Link>
-          <Link to={GOOGLE_FORMS_LINK} className="transition">
+          <Link to={GOOGLE_FORMS_LINK} className="transition" target="_blank">
             Collaborate
           </Link>
-          <Link to="#contact" className="transition">
+          <a href="/#contact" className="transition">
             Contact
-          </Link>
+          </a>
         </nav>
 
         {/* Mobile Menu Button */}
