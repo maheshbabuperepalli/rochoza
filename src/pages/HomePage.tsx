@@ -157,7 +157,7 @@ export const HomePage = () => {
   }, [isEmblaReady]);
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-full">
       <div className="w-full h-full relative">
         <img
           src={home_background}
@@ -165,29 +165,29 @@ export const HomePage = () => {
           className="w-full h-full object-cover brightness-40"
         />
         <div
-          className="w-full h-full text-white text-4xl px-96 absolute top-1/2 left-1/2
+          className="w-full h-full tracking-wider text-white text-2xl md:text-5xl uppercase  font-bold  md:text-4xl px-12 md:px-32 lg:px-96 absolute top-1/2 left-1/2
        items-center justify-center flex transform -translate-x-1/2 -translate-y-1/2"
         >
           Redefining retail, one machine at a time. Rochoza brings smart vending
           to places where stores can’t reach.
         </div>
       </div>
-      <div className="w-full h-full grid grid-cols-2">
-        <div className="w-full h-full p-8">
+      <div className="w-full h-full flex flex-col md:grid md:grid-cols-2">
+        <div className="w-full h-full  p-8">
           <img
             src={button_pressing}
             alt="image of home"
-            className="w-full h-full rounded-4xl object-cover"
+            className="w-full h-full rounded-2xl md:rounded-4xl object-cover"
           />
         </div>
         <div
           className="w-full h-full p-8 flex flex-col items-center justify-center text-2xl"
           id="about"
         >
-          <span className="text-5xl font-bold">
+          <span className="md:text-5xl font-bold">
             Innovative Smart Vending Solutions
           </span>
-          <span>
+          <span className="text-sm md:text-2xl">
             {" "}
             Rochoza is revolutionizing the way India accesses daily essentials
             through advanced, AI-powered vending machines. We bring 24/7
@@ -203,54 +203,63 @@ export const HomePage = () => {
        * Smart solutions
        *
        */}
-      <div className="w-full h-full flex bg-gray-100">
-        <div className="w-2xl h-full flex items-center justify-center">
+      <div className="w-full h-full flex md:grid md:grid-cols-2 bg-gray-100">
+        <div className="w-max md:w-2xl h-full flex items-center justify-center">
           <img
             src={wendingMachine}
-            className="h-[734px]"
+            className="h-[200px] w-auto md:h-[734px]"
             alt="image of wending machine"
           />
         </div>
 
-        <div className="w-full h-full grid grid-cols-2  gap-x-8 px-8 items-center justify-center">
+        <div className="w-full h-full grid grid-cols-2  gap-x-8 px-2 md:px-8 items-center justify-center">
           {cards.map((card) => (
-            <Card className="h-56 relative items-center">
-              <span className="h-max w-max p-6 -top-6 absolute rounded-full bg-gray-200">
+            <Card className="h-36 md:h-56 relative items-center">
+              <span className="h-8 w-8  md:h-max md:w-max p-2 md:p-6 -top-4 flex items-center justify-center md:-top-6 absolute rounded-full bg-gray-200">
                 {/* 
               icon
               */}
                 <VenusIcon />
               </span>
-              <CardContent className="p-8">
+              <CardContent className="md:p-8">
                 <CardHeader className="px-0">
-                  <CardTitle className="text-4xl font-bold px-0">
+                  <CardTitle className=" md:text-4xl font-bold px-0">
                     {card.title}
                   </CardTitle>
                 </CardHeader>
-                <p className="text-lg py-2">{card.description}</p>
+                <p className="text-sm md:text-lg py-2">{card.description}</p>
               </CardContent>
             </Card>
           ))}
         </div>
       </div>
 
+      {/**
+       *
+       * Founder
+       *
+       */}
       <div className="w-full h-full flex items-center p-4 justify-center">
-        <div className="w-full  h-full flex p-16 flex-col items-center justify-center">
+        <div className="w-full  h-full flex md:p-16 flex-col items-center justify-center">
           <img
             src={founder}
-            className="h-96 rounded-lg w-full object-cover"
+            className="h-32 md:h-96 rounded-lg w-full object-cover"
             alt="image of founder"
           />
           <p className="flex flex-col w-full text-center justify-center items-center">
-            <span className="font-bold text-3xl">Hemanth Allamaneni</span>{" "}
+            <span className="font-bold text-2xl md:text-3xl">
+              Hemanth Allamaneni
+            </span>{" "}
             <span>Founder, Rochoza</span>
           </p>
         </div>
-        <div className="text-2xl px-8">
-          <span className="font-bold text-4xl">The Vision Behind Rochoza</span>
+        <div className="md:text-2xl md:px-8">
+          <span className="font-bold text-xl md:text-4xl">
+            The Vision Behind Rochoza
+          </span>
           <br />
           <br />
-          <span className="font-bold text-2xl">
+          <span className="font-bold md:text-2xl">
             Young Leadership. Bold Innovation. A New Chapter in Smart Retail.
           </span>
           <br />
@@ -267,12 +276,18 @@ export const HomePage = () => {
         </div>
       </div>
 
-      <div className="w-full h-full grid grid-cols-2 gap-x-8 px-8 items-center bg-gray-100 justify-center">
+      {/**
+       *
+       * About
+       *
+       */}
+
+      <div className="w-full h-full flex flex-col grid grid-cols-2 md:gap-x-8 px-8 items-center bg-gray-100 justify-center">
         {about.map((item) => (
           <Card className="h-56 items-center shadow-none bg-transparent border-none">
             <CardContent className="p-8">
               <CardHeader className="px-0">
-                <CardTitle className="text-4xl font-bold px-0">
+                <CardTitle className="text-2xl md:text-4xl font-bold px-0">
                   {item.title}
                 </CardTitle>
               </CardHeader>
@@ -282,6 +297,10 @@ export const HomePage = () => {
         ))}
       </div>
 
+      {/**
+       *
+       * images
+       */}
       <div className="w-full h-full flex flex-col items-center justify-center">
         <Carousel
           opts={{
@@ -293,20 +312,20 @@ export const HomePage = () => {
             }
             return (emblaApiRef.current = api);
           }}
-          className="relative"
+          className="relative h-full w-full flex items-center justify-center"
         >
-          {/* Left Gradient */}
-          <div className="pointer-events-none absolute left-0 top-0 h-full w-72 bg-gradient-to-r from-black/80 to-transparent z-10" />
-
-          {/* Right Gradient */}
-          <div className="pointer-events-none absolute right-0 top-0 h-full w-72 bg-gradient-to-l from-black/80 to-transparent z-10" />
           <CarouselContent className="-ml-2 flex gap-8 md:-ml-4">
+            {/* Left Gradient */}
+            <div className="pointer-events-none absolute left-0 top-0 h-full w-6 md:w-72 bg-gradient-to-r from-black/80 to-transparent z-10" />
+
+            {/* Right Gradient */}
+            <div className="pointer-events-none absolute right-0 top-0 h-full w-6 md:w-72 bg-gradient-to-l from-black/80 to-transparent z-10" />
             {images.map((image) => (
               <CarouselItem className="shrink-0 basis-1/3">
                 <img
                   src={image.src}
                   alt={image.alt}
-                  className="w-full h-96 object-cover rounded-xl"
+                  className="md:w-full  md:h-96 object-cover rounded-xl"
                 />
               </CarouselItem>
             ))}
@@ -315,7 +334,7 @@ export const HomePage = () => {
           <CarouselNext className="right-4 cursor-pointer z-50" />
         </Carousel>
         {/* Dots */}
-        <div className="flex justify-center mt-4 gap-2">
+        <div className="flex justify-center pt-4 gap-2">
           {images.map((_, i) => (
             <button
               key={i}
@@ -328,7 +347,12 @@ export const HomePage = () => {
         </div>
       </div>
 
-      <div className="w-full h-[450px] bg-gray-800 text-white p-16 flex items-center">
+      {/**
+       *
+       * Reviews
+       *
+       */}
+      <div className="w-full h-[450px] bg-gray-800 text-white md:p-16 flex items-center">
         <Carousel
           opts={{
             align: "start",
@@ -340,7 +364,7 @@ export const HomePage = () => {
             setIsEmblaReady(true); // trigger autoplay logic
           }}
         >
-          <CarouselContent className="-ml-2 md:-ml-4">
+          <CarouselContent>
             {reviews.map((review) => (
               <CarouselItem className="w-full">
                 <div className="font-semibold text-xl">
