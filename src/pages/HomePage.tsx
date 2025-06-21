@@ -212,10 +212,13 @@ export const HomePage = () => {
           />
         </div>
 
-        <div className="w-full h-full grid grid-cols-2  gap-x-8 px-2 md:px-8 items-center justify-center">
+        <div className="w-full h-full md:grid grid-cols-2  gap-x-2 md:gap-x-8 px-2 md:px-8 items-center justify-center">
           {cards.map((card) => (
-            <Card className="h-36 md:h-56 relative items-center">
-              <span className="h-8 w-8  md:h-max md:w-max p-2 md:p-6 -top-4 flex items-center justify-center md:-top-6 absolute rounded-full bg-gray-200">
+            <Card className="h-56 relative items-center">
+              <span
+                className="h-8 w-8  md:h-max md:w-max p-2 md:p-6 -top-4 flex items-center
+               justify-center md:-top-6 absolute rounded-full bg-gray-200"
+              >
                 {/* 
               icon
               */}
@@ -223,7 +226,7 @@ export const HomePage = () => {
               </span>
               <CardContent className="md:p-8">
                 <CardHeader className="px-0">
-                  <CardTitle className=" md:text-4xl font-bold px-0">
+                  <CardTitle className="text-sm md:text-2xl font-bold px-0">
                     {card.title}
                   </CardTitle>
                 </CardHeader>
@@ -239,7 +242,7 @@ export const HomePage = () => {
        * Founder
        *
        */}
-      <div className="w-full h-full flex items-center p-4 justify-center">
+      <div className="w-full h-full flex flex-col md:flex-row items-center p-4 justify-center">
         <div className="w-full  h-full flex md:p-16 flex-col items-center justify-center">
           <img
             src={founder}
