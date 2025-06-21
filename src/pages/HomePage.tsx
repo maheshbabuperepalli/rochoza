@@ -203,16 +203,16 @@ export const HomePage = () => {
        * Smart solutions
        *
        */}
-      <div className="w-full h-full flex md:grid md:grid-cols-2 bg-gray-100">
-        <div className="w-max md:w-2xl h-full flex items-center justify-center">
-          <img
-            src={wendingMachine}
-            className="h-[200px] w-auto md:h-[734px]"
-            alt="image of wending machine"
-          />
-        </div>
+      <div className="w-full h-max flex items-center justify-center bg-gray-100">
+        {/* <div className="w-max md:w-2xl md:relative absolute flex items-center justify-center"> */}
+        <img
+          src={wendingMachine}
+          className="h-[200px] w-max grid-cols-1 md:h-[734px]"
+          alt="image of wending machine"
+        />
+        {/* </div> */}
 
-        <div className="w-full h-full md:grid grid-cols-2  gap-x-2 md:gap-x-8 px-2 md:px-8 items-center justify-center">
+        <div className="w-full h-full grid grid-cols-2  gap-2 gap-y-4 md:gap-x-8 md:px-8 items-center justify-center">
           {cards.map((card) => (
             <Card className="h-56 relative items-center">
               <span
@@ -224,7 +224,7 @@ export const HomePage = () => {
               */}
                 <VenusIcon />
               </span>
-              <CardContent className="md:p-8">
+              <CardContent className="p-0 md:p-8">
                 <CardHeader className="px-0">
                   <CardTitle className="text-sm md:text-2xl font-bold px-0">
                     {card.title}
@@ -285,16 +285,16 @@ export const HomePage = () => {
        *
        */}
 
-      <div className="w-full h-full flex flex-col grid grid-cols-2 md:gap-x-8 px-8 items-center bg-gray-100 justify-center">
+      <div className="w-full h-full flex flex-col grid grid-cols-2 md:gap-x-8 md:px-8 items-center bg-gray-100 justify-center">
         {about.map((item) => (
           <Card className="h-56 items-center shadow-none bg-transparent border-none">
-            <CardContent className="p-8">
+            <CardContent className="md:p-8">
               <CardHeader className="px-0">
-                <CardTitle className="text-2xl md:text-4xl font-bold px-0">
+                <CardTitle className="text-lg md:text-4xl font-bold px-0">
                   {item.title}
                 </CardTitle>
               </CardHeader>
-              <p className="text-lg py-2">{item.description}</p>
+              <p className="text-sm md:text-lg py-2">{item.description}</p>
             </CardContent>
           </Card>
         ))}
@@ -304,7 +304,7 @@ export const HomePage = () => {
        *
        * images
        */}
-      <div className="w-full h-full flex flex-col items-center justify-center">
+      <div className="w-full py-16 flex flex-col items-center justify-center">
         <Carousel
           opts={{
             loop: true,
@@ -317,18 +317,18 @@ export const HomePage = () => {
           }}
           className="relative h-full w-full flex items-center justify-center"
         >
-          <CarouselContent className="-ml-2 flex gap-8 md:-ml-4">
-            {/* Left Gradient */}
-            <div className="pointer-events-none absolute left-0 top-0 h-full w-6 md:w-72 bg-gradient-to-r from-black/80 to-transparent z-10" />
+          {/* Left Gradient */}
+          <div className="pointer-events-none absolute left-0 top-0 h-full w-6 md:w-72 bg-gradient-to-r from-black/80 to-transparent z-10" />
 
-            {/* Right Gradient */}
-            <div className="pointer-events-none absolute right-0 top-0 h-full w-6 md:w-72 bg-gradient-to-l from-black/80 to-transparent z-10" />
+          {/* Right Gradient */}
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-6 md:w-72 bg-gradient-to-l from-black/80 to-transparent z-10" />
+          <CarouselContent className=" flex w-full items-center justify-center space-x-4 md:-ml-4">
             {images.map((image) => (
-              <CarouselItem className="shrink-0 basis-1/3">
+              <CarouselItem className="shrink-0 md:basis-1/3">
                 <img
                   src={image.src}
                   alt={image.alt}
-                  className="md:w-full  md:h-96 object-cover rounded-xl"
+                  className="w-full  h-96 object-cover rounded-xl"
                 />
               </CarouselItem>
             ))}
@@ -337,7 +337,7 @@ export const HomePage = () => {
           <CarouselNext className="right-4 cursor-pointer z-50" />
         </Carousel>
         {/* Dots */}
-        <div className="flex justify-center pt-4 gap-2">
+        <div className="flex justify-center py-4 gap-2">
           {images.map((_, i) => (
             <button
               key={i}
@@ -355,7 +355,7 @@ export const HomePage = () => {
        * Reviews
        *
        */}
-      <div className="w-full h-[450px] bg-gray-800 text-white md:p-16 flex items-center">
+      <div className="w-full h-[450px] bg-gray-800 p-4 text-white md:p-16 flex items-center">
         <Carousel
           opts={{
             align: "start",
@@ -370,8 +370,8 @@ export const HomePage = () => {
           <CarouselContent>
             {reviews.map((review) => (
               <CarouselItem className="w-full">
-                <div className="font-semibold text-xl">
-                  <p className="pb-8 text-2xl ">{review.description}</p>
+                <div className="font-semibold md:text-xl">
+                  <p className="pb-8 md:text-2xl ">{review.description}</p>
                   <span>-{review.name}</span>
                 </div>
               </CarouselItem>
